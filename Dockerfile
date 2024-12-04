@@ -81,3 +81,16 @@ ENV GROQ_API_KEY=${GROQ_API_KEY} \
 
 RUN mkdir -p ${WORKDIR}/run
 CMD pnpm run dev --host
+
+# Wrangler için gerekli dizini oluştur ve izinleri ayarla
+RUN mkdir -p /root/.config/.wrangler && \
+    chmod -R 755 /root/.config/.wrangler
+
+# npm'i güncelle
+RUN npm install -g npm@10.9.1
+
+# Wrangler'ı global olarak yükle
+RUN npm install -g wrangler
+
+# Development komutunu güncelle
+CMD ["sh", "-c", "NODE_ENV=development pnpm run dev --host 0.0.0.0"]
